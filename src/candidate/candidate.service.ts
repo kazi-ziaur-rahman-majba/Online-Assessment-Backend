@@ -19,6 +19,7 @@ export class CandidateService {
         endTime: MoreThanOrEqual(now),
       },
       select: ['id', 'title', 'duration', 'questionSets', 'negativeMarking', 'startTime', 'endTime'],
+      order: { createdAt: 'DESC' },
     });
   }
 
@@ -32,7 +33,7 @@ export class CandidateService {
       },
     });
 
-    if (!exam) throw new BadRequestException('Exam is not currently active');
+    if (!exam) throw new BadRequestException('Exam not found or is not currently active');
 
     const questions = await this.questionRepo.find({
       where: { exam: { id: examId } },

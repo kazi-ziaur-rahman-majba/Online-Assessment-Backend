@@ -1,4 +1,15 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Req, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Put,
+  Patch,
+  Param,
+  Delete,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { ExamsService } from './exams.service';
 import { CreateExamDto, UpdateExamDto } from './dto/exam.dto';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -24,7 +35,20 @@ export class ExamsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() updateExamDto: UpdateExamDto, @Req() req) {
+  update(
+    @Param('id') id: string,
+    @Body() updateExamDto: UpdateExamDto,
+    @Req() req,
+  ) {
+    return this.examsService.update(id, updateExamDto, req.user.id);
+  }
+
+  @Patch(':id')
+  updatePartial(
+    @Param('id') id: string,
+    @Body() updateExamDto: UpdateExamDto,
+    @Req() req,
+  ) {
     return this.examsService.update(id, updateExamDto, req.user.id);
   }
 
